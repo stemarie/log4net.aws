@@ -87,6 +87,7 @@ namespace log4net.Appender
                             Replace = true
                         });
                 request.DomainName = "karelllogging";
+                request.ItemName = Guid.NewGuid().ToString();
             }
             PutAttributesResponse response = client.PutAttributes(request);
         }
