@@ -8,8 +8,8 @@
     <ProjectGuid>{813FC7DE-3098-42F6-AFF9-6BCF709B6E35}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>log4net.aws</RootNamespace>
-    <AssemblyName>log4net.aws</AssemblyName>
+    <RootNamespace>log4net.Appender</RootNamespace>
+    <AssemblyName>log4net.Appender.AWS</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

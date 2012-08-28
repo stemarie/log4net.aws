@@ -2,10 +2,9 @@
 using System.Globalization;
 using Amazon.SimpleDB;
 using Amazon.SimpleDB.Model;
-using log4net.Appender;
 using log4net.Core;
 
-namespace log4net.aws
+namespace log4net.Appender
 {
     public class SimpleDBAppender : BufferingAppenderSkeleton
     {
