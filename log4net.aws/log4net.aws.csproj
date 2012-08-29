@@ -47,8 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="S3Appender.cs" />
     <Compile Include="SimpleDBAppender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SQSAppender.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
