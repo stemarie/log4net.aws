@@ -14,6 +14,14 @@ namespace log4net.aws.console
         {
             XmlConfigurator.Configure();
             log.Info("test");
+            try
+            {
+                throw new Exception("throw a message!");
+            }
+            catch (Exception ex)
+            {
+                log.Error("Test exception",ex);
+            }
             //Console.ReadKey();
         }
     }

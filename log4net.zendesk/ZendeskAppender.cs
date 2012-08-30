@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using ZenDeskApi.Model;
@@ -9,6 +11,12 @@ namespace log4net.Appender
 {
     public class ZendeskAppender : BufferingAppenderSkeleton
     {
+        private string _url;
+        private string _user;
+        private string _password;
+        private int _requesterId;
+        private string _tags;
+
         /// <summary>
         /// Sends the events.
         /// </summary>
@@ -23,44 +31,17 @@ namespace log4net.Appender
             ZenDesk client = new ZenDesk(Url, User, Password);
             Parallel.ForEach(events, loggingEvent =>
                 {
-                    StringBuilder sb = new StringBuilder(20 + loggingEvent.Properties.Count);
-                    sb.AppendFormat("Message: {0}\n", loggingEvent.RenderedMessage)
-                        .AppendFormat("Domain: {0}\n", loggingEvent.Domain)
-                        .AppendFormat("Identity: {0}\n", loggingEvent.Identity)
-                        .AppendFormat("Level: {0}\n", loggingEvent.Level)
-                        .AppendFormat("Logger Name: {0}\n", loggingEvent.LoggerName)
-                        .AppendFormat("Thread Name: {0}\n", loggingEvent.ThreadName)
-                        .AppendFormat("Time Stamp: {0}\n", loggingEvent.TimeStamp)
-                        .AppendFormat("User Name: {0}\n", loggingEvent.UserName);
-                    foreach (DictionaryEntry dictionaryEntry in loggingEvent.Properties)
-                    {
-                        sb.AppendFormat("Property {0}: {1}\n", dictionaryEntry.Key, dictionaryEntry.Value);
-                    }
-                    if (loggingEvent.ExceptionObject != null)
-                    {
-                        sb.AppendFormat("Location - ClassName: {0}\n", loggingEvent.LocationInformation.ClassName)
-                            .AppendFormat("Location - FileName: {0}\n", loggingEvent.LocationInformation.FileName)
-                            .AppendFormat("Location - FullInfo: {0}\n", loggingEvent.LocationInformation.FullInfo)
-                            .AppendFormat("Location - LineNumber: {0}\n", loggingEvent.LocationInformation.LineNumber)
-                            .AppendFormat("Location - MethodName: {0}\n", loggingEvent.LocationInformation.MethodName);
-                    }
-                    if (loggingEvent.ExceptionObject != null)
-                    {
-                        sb.AppendFormat("Exception Object: {0}\n", loggingEvent.ExceptionObject.ToString())
-                            .AppendFormat("Exception Message: {0}\n", loggingEvent.ExceptionObject.Message)
-                            .AppendFormat("Exception StackTrace: {0}\n", loggingEvent.ExceptionObject.StackTrace)
-                            .AppendFormat("Exception InnerException: {0}\n", loggingEvent.ExceptionObject.InnerException);
-                    }
-
+                    StringWriter writer = new StringWriter();
+                    Layout.Format(writer,loggingEvent);
+                    
                     Ticket ticket = new Ticket
                         {
-                            Description = sb.ToString(),
-                            Subject = string.Format("{0} {1} {2} {3} - {4}",
+                            Description = writer.ToString(),
+                            Subject = string.Format("{0} {1} {2} {3}",
                             loggingEvent.TimeStamp,
                             loggingEvent.ThreadName,
                             loggingEvent.Level,
-                            loggingEvent.LoggerName,
-                            loggingEvent.RenderedMessage),
+                            loggingEvent.LoggerName),
                             SetTags = Tags,
                             RequesterId = RequesterId
                         };
@@ -68,10 +49,59 @@ namespace log4net.Appender
                 });
         }
 
-        public string Url { get; set; }
-        public string User { get; set; }
-        public string Password { get; set; }
-        protected string Tags { get; set; }
-        protected int RequesterId { get; set; }
+        public string Url
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_url))
+                    throw new ArgumentNullException(@"Url property not defined in appender/config: <Url value='https://zendeskurl.zendesk.com'>");
+                return _url;
+            }
+            set { _url = value; }
+        }
+
+        public string User
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_user))
+                    throw new ArgumentNullException(@"User property not defined in appender/config: <User value='zendeskusername/token' />");
+                return _user;
+            }
+            set { _user = value; }
+        }
+
+        public string Password
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_password))
+                    throw new ArgumentNullException(@"Password property not defined in appender/config: <Password value='zendeskapitoken' />");
+                return _password;
+            }
+            set { _password = value; }
+        }
+
+        protected string Tags
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_tags))
+                    throw new ArgumentNullException(@"Tags property not defined in appender/config: <Tags value='log4net tags to set' />");
+                return _tags;
+            }
+            set { _tags = value; }
+        }
+
+        protected int RequesterId
+        {
+            get
+            {
+                if (_requesterId==0)
+                    throw new ArgumentNullException(@"RequesterId property not defined in appender/config: <RequesterId value='RequesterId(#)' /> Example: <RequesterId value='1' />");
+                return _requesterId;
+            }
+            set { _requesterId = value; }
+        }
     }
 }
