@@ -14,7 +14,7 @@ namespace log4net.aws.console
         {
             XmlConfigurator.Configure();
             log.Info("test");
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

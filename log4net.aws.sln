@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.aws", "log4net.aws\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.aws.console", "log4net.aws.console\log4net.aws.console.csproj", "{7E43BF81-5876-4F61-9406-8CE05FBC3266}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.zendesk", "log4net.zendesk\log4net.zendesk.csproj", "{533B8F18-E380-4959-852E-774AF058F2FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{7E43BF81-5876-4F61-9406-8CE05FBC3266}.Release|Mixed Platforms.Build.0 = Release|x86
 		{7E43BF81-5876-4F61-9406-8CE05FBC3266}.Release|x86.ActiveCfg = Release|x86
 		{7E43BF81-5876-4F61-9406-8CE05FBC3266}.Release|x86.Build.0 = Release|x86
+		{533B8F18-E380-4959-852E-774AF058F2FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{533B8F18-E380-4959-852E-774AF058F2FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{533B8F18-E380-4959-852E-774AF058F2FA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{533B8F18-E380-4959-852E-774AF058F2FA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{533B8F18-E380-4959-852E-774AF058F2FA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{533B8F18-E380-4959-852E-774AF058F2FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{533B8F18-E380-4959-852E-774AF058F2FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{533B8F18-E380-4959-852E-774AF058F2FA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{533B8F18-E380-4959-852E-774AF058F2FA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{533B8F18-E380-4959-852E-774AF058F2FA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
