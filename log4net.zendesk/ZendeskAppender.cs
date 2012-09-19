@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using ZenDeskApi.Model;
+using log4net.Appender.Properties;
 using log4net.Core;
 using ZenDesk = ZenDeskApi.ZenDeskApi;
 
@@ -54,7 +53,7 @@ namespace log4net.Appender
             get
             {
                 if (string.IsNullOrEmpty(_url))
-                    throw new ArgumentNullException(@"Url property not defined in appender/config: <Url value='https://zendeskurl.zendesk.com'>");
+                    throw new ArgumentNullException(Resources.UrlPropertyNotDefined);
                 return _url;
             }
             set { _url = value; }
@@ -65,7 +64,7 @@ namespace log4net.Appender
             get
             {
                 if (string.IsNullOrEmpty(_user))
-                    throw new ArgumentNullException(@"User property not defined in appender/config: <User value='zendeskusername/token' />");
+                    throw new ArgumentNullException(Resources.UserPropertyNotDefined);
                 return _user;
             }
             set { _user = value; }
@@ -76,7 +75,7 @@ namespace log4net.Appender
             get
             {
                 if (string.IsNullOrEmpty(_password))
-                    throw new ArgumentNullException(@"Password property not defined in appender/config: <Password value='zendeskapitoken' />");
+                    throw new ArgumentNullException(Resources.PasswordPropertyNotDefined);
                 return _password;
             }
             set { _password = value; }
@@ -87,7 +86,7 @@ namespace log4net.Appender
             get
             {
                 if (string.IsNullOrEmpty(_tags))
-                    throw new ArgumentNullException(@"Tags property not defined in appender/config: <Tags value='log4net tags to set' />");
+                    throw new ArgumentNullException(Resources.TagsPropertyNotDefined);
                 return _tags;
             }
             set { _tags = value; }
@@ -98,7 +97,7 @@ namespace log4net.Appender
             get
             {
                 if (_requesterId==0)
-                    throw new ArgumentNullException(@"RequesterId property not defined in appender/config: <RequesterId value='RequesterId(#)' /> Example: <RequesterId value='1' />");
+                    throw new ArgumentNullException(Resources.RequesterIdPropertyNotDefined);
                 return _requesterId;
             }
             set { _requesterId = value; }
