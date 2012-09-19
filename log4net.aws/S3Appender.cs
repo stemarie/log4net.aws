@@ -3,20 +3,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Amazon.S3;
 using Amazon.S3.Model;
+using log4net.Appender.Language;
 using log4net.Core;
 
 namespace log4net.Appender
 {
     public class S3Appender : BufferingAppenderSkeleton
     {
-        public string _bucketName;
+        private string _bucketName;
 
         public string BucketName
         {
             get
             {
                 if (String.IsNullOrEmpty(_bucketName))
-                    throw new ApplicationException("Bucket name not specified; unable to proceed");
+                    throw new ApplicationException(Resource.BucketNameNotSpecified);
                 return _bucketName;
             }
             set { _bucketName = value; }

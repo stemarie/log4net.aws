@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Amazon.SimpleDB;
 using Amazon.SimpleDB.Model;
+using log4net.Appender.Language;
 using log4net.Core;
 
 namespace log4net.Appender
@@ -17,7 +18,7 @@ namespace log4net.Appender
             get
             {
                 if (String.IsNullOrEmpty(_dbName))
-                    throw new ApplicationException("DB Name not specified; unable to proceed");
+                    throw new ApplicationException(Resource.DBNameNotSpecified);
                 return _dbName;
             }
             set { _dbName = value; }

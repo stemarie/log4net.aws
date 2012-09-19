@@ -1,54 +1,35 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Amazon.SQS;
 using Amazon.SQS.Model;
+using log4net.Appender.Language;
 using log4net.Core;
 
 namespace log4net.Appender
 {
     public class SQSAppender : BufferingAppenderSkeleton
     {
-        public string _queueName;
+        private string _queueName;
 
         public string QueueName
         {
             get
             {
                 if (String.IsNullOrEmpty(_queueName))
-                    throw new ApplicationException("Queue Name not specified; unable to proceed");
+                    throw new ApplicationException(Resource.QueueNameNotSpecified);
                 return _queueName;
             }
-            set { _queueName = value; }
+            set
+            {
+                _queueName = value;
+                Client = InitializeQueue();
+            }
         }
 
-        //public SQSAppender()
-        //{
-        //    var client = new Amazon.SQS.AmazonSQSClient();
-        //    ListQueuesRequest request = new ListQueuesRequest
-        //        {
-        //            QueueNamePrefix = QueueName
-        //        };
-        //    var listQueuesResponse = client.ListQueues(request);
-        //    bool found = listQueuesResponse.ListQueuesResult.QueueUrl.Any(s => s == QueueName);
-            
-        //    if (found == false)
-        //    {
-        //        var createQueueResponse = client.CreateQueue(new CreateQueueRequest
-        //            {
-        //                QueueName = QueueName
-        //            });
-        //        _queueUrl = createQueueResponse.CreateQueueResult.QueueUrl;
-        //    }
-        //    else
-        //    {
-        //        _queueUrl = client.GetQueueUrl(
-        //            new GetQueueUrlRequest
-        //                {
-        //                    QueueName = _queueName
-        //                }
-        //            ).GetQueueUrlResult.QueueUrl;
-        //    }
-        //}
+        public string QueueUrl { get; private set; }
+
+        internal AmazonSQSClient Client { get; private set; }
 
         /// <summary>
         /// Sends the events.
@@ -61,44 +42,46 @@ namespace log4net.Appender
         /// </remarks>
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            var client = new Amazon.SQS.AmazonSQSClient();
-
-            string _queueUrl;
-
-            ListQueuesRequest listQueuesRequest = new ListQueuesRequest
+            Parallel.ForEach(events, l =>
                 {
-                    QueueNamePrefix = QueueName
-                };
+                    SendMessageRequest request =
+                        new SendMessageRequest()
+                            .WithMessageBody(Utility.GetXmlString(l))
+                            .WithQueueUrl(QueueUrl);
+
+                    Client.SendMessage(request);
+                });
+        }
+
+        private AmazonSQSClient InitializeQueue()
+        {
+            var client = new AmazonSQSClient();
+            
+            ListQueuesRequest listQueuesRequest = new ListQueuesRequest
+                                                      {
+                                                          QueueNamePrefix = QueueName
+                                                      };
             var listQueuesResponse = client.ListQueues(listQueuesRequest);
             bool found = listQueuesResponse.ListQueuesResult.QueueUrl.Any(s => s == QueueName);
 
             if (found == false)
             {
                 var createQueueResponse = client.CreateQueue(new CreateQueueRequest
-                    {
-                        QueueName = QueueName
-                    });
-                _queueUrl = createQueueResponse.CreateQueueResult.QueueUrl;
+                                                                 {
+                                                                     QueueName = QueueName
+                                                                 });
+                QueueUrl = createQueueResponse.CreateQueueResult.QueueUrl;
             }
             else
             {
-                _queueUrl = client.GetQueueUrl(
+                QueueUrl = client.GetQueueUrl(
                     new GetQueueUrlRequest
                         {
                             QueueName = _queueName
                         }
                     ).GetQueueUrlResult.QueueUrl;
             }
-
-            Parallel.ForEach(events, l =>
-                {
-                    SendMessageRequest request =
-                        new SendMessageRequest()
-                            .WithMessageBody(Utility.GetXmlString(l))
-                            .WithQueueUrl(_queueUrl);
-
-                    client.SendMessage(request);
-                });
+            return client;
         }
     }
 }
