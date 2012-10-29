@@ -17,7 +17,7 @@ namespace log4net.RabbitMQ
             get
             {
                 if (String.IsNullOrEmpty(_hostName))
-                    throw new ApplicationException("Host name/path not specified");
+                    throw new ApplicationException("Host name not specified");
                 return _hostName;
             }
             set { _hostName = value; }
