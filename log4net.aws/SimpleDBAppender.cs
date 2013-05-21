@@ -24,21 +24,27 @@ namespace log4net.Appender
             set { _dbName = value; }
         }
 
-        public SimpleDBAppender()
+        public override void ActivateOptions()
         {
+            base.ActivateOptions();
+
             var client = new AmazonSimpleDBClient();
-            ListDomainsRequest request=new ListDomainsRequest();
+            ListDomainsRequest request = new ListDomainsRequest();
             var response = client.ListDomains(request);
             bool found = response.ListDomainsResult.DomainName.Any(d => d == DBName);
             if (!found)
             {
                 CreateDomainRequest createDomainRequest =
                     new CreateDomainRequest
-                        {
-                            DomainName = DBName
-                        };
+                    {
+                        DomainName = DBName
+                    };
                 client.CreateDomain(createDomainRequest);
             }
+        }
+
+        public SimpleDBAppender()
+        {
         }
 
         /// <summary>
