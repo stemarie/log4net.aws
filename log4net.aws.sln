@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.aws.console", "log4
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.zendesk", "log4net.zendesk\log4net.zendesk.csproj", "{533B8F18-E380-4959-852E-774AF058F2FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.MassTransit", "log4net.MassTransit\log4net.MassTransit.csproj", "{6FB59FCC-3738-4EC7-A425-DA735C9166A3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.RabbitMQ", "log4net.RabbitMQ\log4net.RabbitMQ.csproj", "{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,26 +47,6 @@ Global
 		{533B8F18-E380-4959-852E-774AF058F2FA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{533B8F18-E380-4959-852E-774AF058F2FA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{533B8F18-E380-4959-852E-774AF058F2FA}.Release|x86.ActiveCfg = Release|Any CPU
-		{6FB59FCC-3738-4EC7-A425-DA735C9166A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FB59FCC-3738-4EC7-A425-DA735C9166A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FB59FCC-3738-4EC7-A425-DA735C9166A3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{6FB59FCC-3738-4EC7-A425-DA735C9166A3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{6FB59FCC-3738-4EC7-A425-DA735C9166A3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6FB59FCC-3738-4EC7-A425-DA735C9166A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FB59FCC-3738-4EC7-A425-DA735C9166A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FB59FCC-3738-4EC7-A425-DA735C9166A3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{6FB59FCC-3738-4EC7-A425-DA735C9166A3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{6FB59FCC-3738-4EC7-A425-DA735C9166A3}.Release|x86.ActiveCfg = Release|Any CPU
-		{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{862D24AC-4E9C-49CC-A1F8-BA3A313C412A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
