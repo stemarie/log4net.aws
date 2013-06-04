@@ -1,7 +1,7 @@
+using log4net.Core;
 using System;
 using System.Globalization;
 using System.Xml.Linq;
-using log4net.Core;
 
 namespace log4net.Appender
 {

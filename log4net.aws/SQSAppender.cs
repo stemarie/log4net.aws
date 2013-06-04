@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Amazon.SQS;
+﻿using Amazon.SQS;
 using Amazon.SQS.Model;
 using log4net.Appender.Language;
 using log4net.Core;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace log4net.Appender
 {
