@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using ZenDeskApi.Model;
+using ZendeskApi_v2.Models.Tickets;
 using log4net.Appender.Properties;
 using log4net.Core;
-using ZenDesk = ZenDeskApi.ZenDeskApi;
+using ZenDesk = ZendeskApi_v2.ZendeskApi;
 
 namespace log4net.Appender
 {
@@ -31,8 +31,8 @@ namespace log4net.Appender
             Parallel.ForEach(events, loggingEvent =>
                 {
                     StringWriter writer = new StringWriter();
-                    Layout.Format(writer,loggingEvent);
-                    
+                    Layout.Format(writer, loggingEvent);
+
                     Ticket ticket = new Ticket
                         {
                             Description = writer.ToString(),
@@ -41,10 +41,10 @@ namespace log4net.Appender
                             loggingEvent.ThreadName,
                             loggingEvent.Level,
                             loggingEvent.LoggerName),
-                            SetTags = Tags,
+                            Tags = Tags.Split(';'),
                             RequesterId = RequesterId
                         };
-                    client.CreateTicket(ticket);
+                    client.Tickets.CreateTicket(ticket);
                 });
         }
 
@@ -96,7 +96,7 @@ namespace log4net.Appender
         {
             get
             {
-                if (_requesterId==0)
+                if (_requesterId == 0)
                     throw new ArgumentNullException(Resources.RequesterIdPropertyNotDefined);
                 return _requesterId;
             }
