@@ -1,27 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using log4net.Config;
 
 namespace log4net.aws.console
 {
     class Program
     {
-        private static readonly ILog log = LogManager.GetLogger(typeof(Program));
+        private static readonly ILog Log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         static void Main(string[] args)
         {
-            XmlConfigurator.Configure();
-            log.Info("test");
+            //XmlConfigurator.Configure();
+            Log.Info("test");
             try
             {
                 throw new Exception("throw a message!");
             }
             catch (Exception ex)
             {
-                log.Error("Test exception",ex);
+                Log.Error("Test exception", ex);
             }
-            //Console.ReadKey();
+            Console.ReadKey();
         }
     }
 }

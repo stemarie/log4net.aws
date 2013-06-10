@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.aws", "log4net.aws\log4net.aws.csproj", "{813FC7DE-3098-42F6-AFF9-6BCF709B6E35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Appender.AWS", "log4net.aws\log4net.Appender.AWS.csproj", "{813FC7DE-3098-42F6-AFF9-6BCF709B6E35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.aws.console", "log4net.aws.console\log4net.aws.console.csproj", "{7E43BF81-5876-4F61-9406-8CE05FBC3266}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.zendesk", "log4net.zendesk\log4net.zendesk.csproj", "{533B8F18-E380-4959-852E-774AF058F2FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.Appender.Zendesk", "log4net.zendesk\log4net.Appender.Zendesk.csproj", "{533B8F18-E380-4959-852E-774AF058F2FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

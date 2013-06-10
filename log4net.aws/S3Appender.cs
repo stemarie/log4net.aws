@@ -20,12 +20,18 @@ namespace log4net.Appender
                     throw new ApplicationException(Resource.BucketNameNotSpecified);
                 return _bucketName;
             }
-            set { _bucketName = value; }
+            set
+            {
+                _bucketName = value;
+                Client = InitializeBucket();
+            }
         }
 
-        public S3Appender()
+        internal AmazonS3Client Client { get; private set; }
+
+        public AmazonS3Client InitializeBucket()
         {
-            var client = new AmazonS3Client();
+            AmazonS3Client client = new AmazonS3Client();
             ListBucketsResponse response = client.ListBuckets();
             bool found = response.Buckets.Any(bucket => bucket.BucketName == BucketName);
 
@@ -33,6 +39,7 @@ namespace log4net.Appender
             {
                 client.PutBucket(new PutBucketRequest().WithBucketName(BucketName));
             }
+            return client;
         }
 
         /// <summary>
@@ -46,8 +53,7 @@ namespace log4net.Appender
         /// </remarks>
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            var client = new AmazonS3Client();
-            Parallel.ForEach(events, l => UploadEvent(l, client));
+            Parallel.ForEach(events, l => UploadEvent(l, Client));
         }
 
         private void UploadEvent(LoggingEvent loggingEvent, AmazonS3 client)
