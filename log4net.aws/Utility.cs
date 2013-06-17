@@ -9,7 +9,7 @@ namespace log4net.Appender
     {
         internal static string GetXmlString(LoggingEvent loggingEvent)
         {
-            return new XElement(
+            var xmlMessage = new XElement(
                 "LogEntry",
                 new XElement("UserName", loggingEvent.UserName),
                 new XElement("TimeStamp",
@@ -21,7 +21,16 @@ namespace log4net.Appender
                 new XElement("Domain", loggingEvent.Domain),
                 new XElement("CreatedOn", DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)),
                 new XElement("RenderedMessage", loggingEvent.RenderedMessage)
-                ).ToString();
+                );
+
+            string exceptionStr = loggingEvent.GetExceptionString();
+
+            if (exceptionStr != null && exceptionStr.Length > 0)
+            {
+                xmlMessage.Add(new XElement("Exception", exceptionStr));
+            }
+
+            return xmlMessage.ToString();
         }
     }
 }
