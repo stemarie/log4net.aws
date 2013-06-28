@@ -23,23 +23,53 @@ namespace log4net.Appender
             set
             {
                 _bucketName = value;
-                Client = InitializeBucket();
+            }
+        }
+
+        private bool _createBucket = true;
+
+        /// <summary>
+        /// If true, checks whether the bucket already exists and if not creates it.
+        /// If false, assumes that the bucket is already created and does not check.
+        /// Set this to false if the AWS credentials used by the S3Appender do not
+        /// have sufficient privileges to call ListBuckets() or PutBucket()
+        /// </summary>
+        public bool CreateBucket
+        {
+            get
+            {
+                return _createBucket;
+            }
+            set
+            {
+                _createBucket = value;
             }
         }
 
         internal AmazonS3Client Client { get; private set; }
 
+        public override void ActivateOptions()
+        {
+            base.ActivateOptions();
+
+            Client = new AmazonS3Client();
+
+            if (CreateBucket)
+            {
+                InitializeBucket();
+            }
+        }
+
         public AmazonS3Client InitializeBucket()
         {
-            AmazonS3Client client = new AmazonS3Client();
-            ListBucketsResponse response = client.ListBuckets();
+            ListBucketsResponse response = Client.ListBuckets();
             bool found = response.Buckets.Any(bucket => bucket.BucketName == BucketName);
 
             if (found == false)
             {
-                client.PutBucket(new PutBucketRequest().WithBucketName(BucketName));
+                Client.PutBucket(new PutBucketRequest().WithBucketName(BucketName));
             }
-            return client;
+            return Client;
         }
 
         /// <summary>
