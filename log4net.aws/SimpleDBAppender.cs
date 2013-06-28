@@ -22,17 +22,14 @@ namespace log4net.Appender
                 return _dbName;
             }
             set
-            {
-                _dbName = value;
-                Client = InitializeSimpleDB();
-            }
+            { _dbName = value; }
         }
 
-        protected AmazonSimpleDBClient Client { get; private set; }
-
-        public AmazonSimpleDBClient InitializeSimpleDB()
+        public override void ActivateOptions()
         {
-            AmazonSimpleDBClient client = new AmazonSimpleDBClient();
+            base.ActivateOptions();
+
+            var client = new AmazonSimpleDBClient();
             ListDomainsRequest request = new ListDomainsRequest();
             var response = client.ListDomains(request);
             bool found = response.ListDomainsResult.DomainName.Any(d => d == DBName);
@@ -40,12 +37,11 @@ namespace log4net.Appender
             {
                 CreateDomainRequest createDomainRequest =
                     new CreateDomainRequest
-                        {
-                            DomainName = DBName
-                        };
+                    {
+                        DomainName = DBName
+                    };
                 client.CreateDomain(createDomainRequest);
             }
-            return client;
         }
 
         /// <summary>
@@ -59,7 +55,8 @@ namespace log4net.Appender
         /// </remarks>
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            Parallel.ForEach(events, e => UploadEvent(e, Client));
+            var client = new AmazonSimpleDBClient();
+            Parallel.ForEach(events, e => UploadEvent(e, client));
         }
 
         private void UploadEvent(LoggingEvent loggingEvent, AmazonSimpleDB client)
