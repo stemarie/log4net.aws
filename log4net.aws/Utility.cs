@@ -25,7 +25,7 @@ namespace log4net.Appender
 
             string exceptionStr = loggingEvent.GetExceptionString();
 
-            if (exceptionStr != null && exceptionStr.Length > 0)
+            if (!string.IsNullOrEmpty(exceptionStr))
             {
                 xmlMessage.Add(new XElement("Exception", exceptionStr));
             }
