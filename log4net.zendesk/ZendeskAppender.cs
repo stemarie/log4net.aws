@@ -1,9 +1,9 @@
-﻿using System;
+﻿using log4net.Appender.Properties;
+using log4net.Core;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using ZendeskApi_v2.Models.Tickets;
-using log4net.Appender.Properties;
-using log4net.Core;
 using ZenDesk = ZendeskApi_v2.ZendeskApi;
 
 namespace log4net.Appender
