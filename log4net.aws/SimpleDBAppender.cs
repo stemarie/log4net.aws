@@ -29,10 +29,10 @@ namespace log4net.Appender
         {
             base.ActivateOptions();
 
-            var client = new AmazonSimpleDBClient();
-            var request = new ListDomainsRequest();
+            var client   = new AmazonSimpleDBClient(Amazon.RegionEndpoint.USWest2);
+            var request  = new ListDomainsRequest();
             var response = client.ListDomains(request);
-            bool found = response.ListDomainsResult.DomainName.Any(d => d == DBName);
+            bool found   = response.ListDomainsResult.DomainNames.Any(d => d == DBName);
             if (!found)
             {
                 var createDomainRequest =
@@ -59,66 +59,66 @@ namespace log4net.Appender
             Parallel.ForEach(events, e => UploadEvent(e, client));
         }
 
-        private void UploadEvent(LoggingEvent loggingEvent, AmazonSimpleDB client)
+        private void UploadEvent(LoggingEvent loggingEvent, AmazonSimpleDBClient client)
         {
             var request = new PutAttributesRequest();
-            request.Attribute.Add(
+            request.Attributes.Add(
                 new ReplaceableAttribute
                     {
                         Name = "UserName",
                         Replace = true,
                         Value = loggingEvent.UserName
                     });
-            request.Attribute.Add(
+            request.Attributes.Add(
                 new ReplaceableAttribute
                     {
                         Value = loggingEvent.TimeStamp.ToString(CultureInfo.InvariantCulture),
                         Name = "TimeStamp",
                         Replace = true
                     });
-            request.Attribute.Add(
+            request.Attributes.Add(
                 new ReplaceableAttribute
                     {
                         Value = loggingEvent.ThreadName,
                         Name = "ThreadName",
                         Replace = true
                     });
-            request.Attribute.Add(
+            request.Attributes.Add(
                 new ReplaceableAttribute
                     {
                         Value = loggingEvent.RenderedMessage,
                         Name = "Message",
                         Replace = true
                     });
-            request.Attribute.Add(
+            request.Attributes.Add(
                 new ReplaceableAttribute
                     {
                         Value = loggingEvent.LoggerName,
                         Name = "LoggerName",
                         Replace = true
                     });
-            request.Attribute.Add(
+            request.Attributes.Add(
                 new ReplaceableAttribute
                     {
                         Value = loggingEvent.Level.ToString(),
                         Name = "Level",
                         Replace = true
                     });
-            request.Attribute.Add(
+            request.Attributes.Add(
                 new ReplaceableAttribute
                     {
                         Value = loggingEvent.Identity,
                         Name = "Identity",
                         Replace = true
                     });
-            request.Attribute.Add(
+            request.Attributes.Add(
                 new ReplaceableAttribute
                     {
                         Value = loggingEvent.Domain,
                         Name = "Domain",
                         Replace = true
                     });
-            request.Attribute.Add(
+            request.Attributes.Add(
                 new ReplaceableAttribute
                     {
                         Value = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture),

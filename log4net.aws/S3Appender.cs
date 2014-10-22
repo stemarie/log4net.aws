@@ -52,7 +52,7 @@ namespace log4net.Appender
         {
             base.ActivateOptions();
 
-            Client = new AmazonS3Client();
+            Client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2);
 
             if (CreateBucket)
             {
@@ -67,7 +67,7 @@ namespace log4net.Appender
 
             if (found == false)
             {
-                Client.PutBucket(new PutBucketRequest().WithBucketName(BucketName));
+                Client.PutBucket(new PutBucketRequest() { BucketName = BucketName });
             }
             return Client;
         }
@@ -83,19 +83,25 @@ namespace log4net.Appender
         /// </remarks>
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            Parallel.ForEach(events, l => UploadEvent(l, Client));
+            var fileAppender = new log4net.Appender.FileAppender(base.Layout, @"C:\Users\dmenezes\Desktop\Logs\teste.txt", true);
+
+            Parallel.ForEach(events, l => fileAppender.Writer.WriteLine(l.RenderedMessage));
+            //Parallel.ForEach(events, l => UploadEvent(l, Client));
         }
 
-        private void UploadEvent(LoggingEvent loggingEvent, AmazonS3 client)
+        private void UploadEvent(LoggingEvent loggingEvent, AmazonS3Client client)
         {
             string key = Guid.NewGuid().ToString();
             var xml = Utility.GetXmlString(loggingEvent);
 
-            PutObjectRequest request = new PutObjectRequest();
-            request.WithBucketName(_bucketName);
-            request.WithKey(Filename(key));
-            request.WithContentBody(xml);
+            PutObjectRequest request = new PutObjectRequest();            
+            request.BucketName = _bucketName;
+            request.Key = Filename(key);
+            request.ContentBody = xml;
             client.PutObject(request);
+
+            // log.txt
+            // log.1.txt
         }
 
         private static string Filename(string key)
