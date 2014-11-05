@@ -58,7 +58,7 @@ namespace log4net.Appender
 
         private AmazonSQSClient InitializeQueue()
         {
-            var client = new AmazonSQSClient(Amazon.RegionEndpoint.USWest2);
+            var client = new AmazonSQSClient(Utility.GetRegionEndpoint());
             
             ListQueuesRequest listQueuesRequest = new ListQueuesRequest
                                                       {

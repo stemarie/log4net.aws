@@ -52,7 +52,7 @@ namespace log4net.Appender
         {
             base.ActivateOptions();
 
-            Client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2);
+            Client = new AmazonS3Client(Utility.GetRegionEndpoint());
 
             if (CreateBucket)
             {
@@ -83,10 +83,7 @@ namespace log4net.Appender
         /// </remarks>
         protected override void SendBuffer(LoggingEvent[] events)
         {
-            var fileAppender = new log4net.Appender.FileAppender(base.Layout, @"C:\Users\dmenezes\Desktop\Logs\teste.txt", true);
-
-            Parallel.ForEach(events, l => fileAppender.Writer.WriteLine(l.RenderedMessage));
-            //Parallel.ForEach(events, l => UploadEvent(l, Client));
+            Parallel.ForEach(events, l => UploadEvent(l, Client));
         }
 
         private void UploadEvent(LoggingEvent loggingEvent, AmazonS3Client client)

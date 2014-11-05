@@ -1,5 +1,6 @@
 using log4net.Core;
 using System;
+using System.Configuration;
 using System.Globalization;
 using System.Xml.Linq;
 
@@ -7,6 +8,12 @@ namespace log4net.Appender
 {
     internal class Utility
     {
+        internal static Amazon.RegionEndpoint GetRegionEndpoint()
+        {
+            var regionEndpoint = ConfigurationManager.AppSettings["Log4net.Appender.Amazon.RegionEndpoint"];
+            return regionEndpoint == null ? Amazon.RegionEndpoint.USWest2 : Amazon.RegionEndpoint.GetBySystemName(regionEndpoint);
+        }
+
         internal static string GetXmlString(LoggingEvent loggingEvent)
         {
             var xmlMessage = new XElement(

@@ -73,7 +73,7 @@ namespace log4net.Appender
         {
             base.ActivateOptions();
 
-            Client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2);
+            Client = new AmazonS3Client(Utility.GetRegionEndpoint());
 
             if (CreateBucket)
             {
@@ -133,12 +133,13 @@ namespace log4net.Appender
         private string Filename()
         {
             var ip  = Dns.GetHostAddresses(Dns.GetHostName()).Select(x => x.ToString()).FirstOrDefault(x => x.Length >= 7 && x.Length <= 15).Replace(".", "-");
-            return string.Format("{0}{1}_{2}.txt", LogDirectory, ip, CountObjects());
+            return string.Format("{0}{1}_{2}.txt", LogDirectory, ip, CountObjects(ip));
         }
 
-        private int CountObjects()
+        private int CountObjects(string ip)
         {
-            var list        = Client.ListObjects(BucketName, LogDirectory);
+            var prefix      = String.Format("{0}{1}", LogDirectory, ip);
+            var list        = Client.ListObjects(BucketName, prefix);
             var count       = list.S3Objects.Count;
             var emptyFolder = count == 1 && list.S3Objects.FirstOrDefault().Key.Equals(LogDirectory);
             return emptyFolder ? 0 : count; 

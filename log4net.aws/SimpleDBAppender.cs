@@ -29,7 +29,7 @@ namespace log4net.Appender
         {
             base.ActivateOptions();
 
-            var client   = new AmazonSimpleDBClient(Amazon.RegionEndpoint.USWest2);
+            var client   = new AmazonSimpleDBClient(Utility.GetRegionEndpoint());
             var request  = new ListDomainsRequest();
             var response = client.ListDomains(request);
             bool found   = response.ListDomainsResult.DomainNames.Any(d => d == DBName);
