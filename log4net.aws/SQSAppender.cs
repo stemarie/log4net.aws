@@ -46,8 +46,11 @@ namespace log4net.Appender
                 {
                     SendMessageRequest request =
                         new SendMessageRequest()
-                            .WithMessageBody(Utility.GetXmlString(l))
-                            .WithQueueUrl(QueueUrl);
+                        {
+                            MessageBody = Utility.GetXmlString(l),
+                            QueueUrl = QueueUrl
+
+                        };
 
                     Client.SendMessage(request);
                 });
@@ -55,14 +58,14 @@ namespace log4net.Appender
 
         private AmazonSQSClient InitializeQueue()
         {
-            var client = new AmazonSQSClient();
+            var client = new AmazonSQSClient(Utility.GetRegionEndpoint());
             
             ListQueuesRequest listQueuesRequest = new ListQueuesRequest
                                                       {
                                                           QueueNamePrefix = QueueName
                                                       };
             var listQueuesResponse = client.ListQueues(listQueuesRequest);
-            bool found = listQueuesResponse.ListQueuesResult.QueueUrl.Any(s => s == QueueName);
+            bool found = listQueuesResponse.ListQueuesResult.QueueUrls.Any(s => s == QueueName);
 
             if (found == false)
             {
