@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/stemarie/log4net.aws.png?label=ready&title=Ready)](https://waffle.io/stemarie/log4net.aws)
 How to use
 ===========
 
